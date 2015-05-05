@@ -54,22 +54,29 @@ In psql, you need to create a user called `admin` with password `admin`
 CREATE USER admin WITH PASSWORD 'admin';
 ```
 
-In psql, you need to create a database called `development`
+In psql, you need to create a database called `development` and `test`
 
 ```psql
 CREATE DATABASE development;
+CREATE DATABASE test;
 ```
 
-Now new database `development` is created. Now we will grant access to `admin`.
+Now new database `development` and `test` is created. Now we will grant access to `admin`.
 
 ```psql
 GRANT ALL PRIVILEGES ON DATABASE development to admin;
+GRANT ALL PRIVILEGES ON DATABASE test to admin;
 ```
 
 In **config/database.yml**, add the configurations of Postgres database
 
 ```ruby
 default: &default
+  adapter: sqlite3
+  pool: 5
+  timeout: 5000
+
+development:
   adapter: postgresql
   database: development
   username: admin
@@ -79,19 +86,22 @@ default: &default
   pool: 5
   timeout: 5000
 
-development:
-  <<: *default
-
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  adapter: postgresql
+  database: test
+  username: admin
+  password: admin
+  host: localhost
+  port: 5432
+  pool: 5
+  timeout: 5000
 
 production:
   <<: *default
   database: db/production.sqlite3
-
 ```
 
 
