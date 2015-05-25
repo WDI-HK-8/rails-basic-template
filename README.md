@@ -45,28 +45,7 @@ gem 'binding_of_caller'
 
 ####Step 4: Postgres Database
 - Download and Install: http://postgresapp.com/
-- After installation, open `psql`
 - Documentations can be found [Here](http://postgresguide.com/)
-
-In psql, you need to create a user called `admin` with password `admin`
-
-```psql
-CREATE USER admin WITH PASSWORD 'admin';
-```
-
-In psql, you need to create a database called `development` and `test`
-
-```psql
-CREATE DATABASE development;
-CREATE DATABASE test;
-```
-
-Now new database `development` and `test` is created. Now we will grant access to `admin`.
-
-```psql
-GRANT ALL PRIVILEGES ON DATABASE development to admin;
-GRANT ALL PRIVILEGES ON DATABASE test to admin;
-```
 
 In **config/database.yml**, add the configurations of Postgres database
 
@@ -79,8 +58,6 @@ default: &default
 development:
   adapter: postgresql
   database: development
-  username: admin
-  password: admin
   host: localhost
   port: 5432
   pool: 5
@@ -92,8 +69,6 @@ development:
 test:
   adapter: postgresql
   database: test
-  username: admin
-  password: admin
   host: localhost
   port: 5432
   pool: 5
